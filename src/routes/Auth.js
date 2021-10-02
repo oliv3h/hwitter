@@ -26,17 +26,16 @@ const Auth = () => {
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
-            let data;
             if (newAccount) {
                 // create account
-                data = await createUserWithEmailAndPassword(
+                await createUserWithEmailAndPassword(
                     authService,
                     email,
                     password
                 );
             } else {
                 // login
-                data = await signInWithEmailAndPassword(
+                await signInWithEmailAndPassword(
                     authService,
                     email,
                     password
