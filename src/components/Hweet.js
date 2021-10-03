@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { dbService, storageService } from "fb";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "@firebase/storage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Hweet = ({ hweetObject, isOwner }) => {
     const [editing, setEditing] = useState(false);
@@ -10,7 +12,9 @@ const Hweet = ({ hweetObject, isOwner }) => {
         const ok = window.confirm("Are you sure?");
         if (ok) {
             // delete
-            await deleteObject(ref(storageService, hweetObject.attachmenturl));
+            if (hweetObject.attachmenturl !== "") {
+                await deleteObject(ref(storageService, hweetObject.attachmenturl));
+            }
             await deleteDoc(doc(dbService, `hweets/${hweetObject.id}`))
         }
     };
@@ -27,30 +31,35 @@ const Hweet = ({ hweetObject, isOwner }) => {
         setNewHweet(value);
     }
     return (
-        <div>
+        <div className="hweet">
             {
                 editing ? (
                     <>
-                        <form onSubmit={onSubmit}>
-                            <input type="text" placeholder="edit your hweet!" value={newHweet} onChange={onChange} required />
-                            <input type="submit" value="Update Hweet!"></input>
+                        <form onSubmit={onSubmit} className="container hweetEdit">
+                            <input type="text" placeholder="edit your hweet!" value={newHweet} onChange={onChange} required autoFocus className="formInput"/>
+                            <input type="submit" value="Update Hweet!"className="formBtn" />
                         </form>
-                        <button onClick={toggleEditing}>Cancel</button>
+                        <span onClick={toggleEditing} className="formBtn cancelBtn">
+                            Cancel
+                        </span>
                     </>
                 ) : (
                     <>
                         <h4>{hweetObject.text}</h4>
-                        {hweetObject.attachmenturl && <img src={hweetObject.attachmenturl} width="50px" height="50px" alt="pic"></img>}
-                        {isOwner &&
-                            <>
-                                <button onClick={onDeleteClick}>Delete!</button>
-                                <button onClick={toggleEditing}>Edit!</button>
-                            </>
-                        } 
+                        {hweetObject.attachmenturl && <img src={hweetObject.attachmenturl} alt="images"/>}
+                        {isOwner && (
+                            <div className="hweet__actions">
+                                <span onClick={onDeleteClick}>
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </span>
+                                <span onClick={toggleEditing}>
+                                    <FontAwesomeIcon icon={faPencilAlt} />
+                                </span>
+                            </div>
+                        )} 
                     </>
                 )
             }
-            
         </div>
     );
 };
