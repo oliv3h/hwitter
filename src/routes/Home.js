@@ -11,7 +11,7 @@ const Home = ({ userObj }) => {
     useEffect(() => {
         const q = query(collection(dbService, "hweets"));
         onSnapshot(q, (querySnapshot) => {
-            const hweetArray = querySnapshot.docs.map((document) => ({
+            let hweetArray = querySnapshot.docs.map((document) => ({
                 id: document.id,
                 ...document.data()
             }));

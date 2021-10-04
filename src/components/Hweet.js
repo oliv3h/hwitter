@@ -5,7 +5,7 @@ import { deleteObject, ref } from "@firebase/storage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Hweet = ({ hweetObject, isOwner }) => {
+const Hweet = ({ hweetObject, isOwner, displayName }) => {
     const [editing, setEditing] = useState(false);
     const [newHweet, setNewHweet] = useState(hweetObject.text);
     const onDeleteClick = async (event) => {

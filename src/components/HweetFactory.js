@@ -80,17 +80,17 @@ const HweetFactory = ({userObj}) => {
             
             {attachment && (
                 <div className="factoryForm__attachment">
-                <img
-                    src={attachment}
-                    style={{
-                    backgroundImage: attachment,
-                        }}
-                    alt="attachment"
-                />
-                <div className="factoryForm__clear" onClick={onClearAttachment}>
-                    <span>Remove</span>
-                    <FontAwesomeIcon icon={faTimes} />
-                </div>
+                    <img
+                        src={attachment}
+                        style={{
+                        backgroundImage: attachment,
+                            }}
+                        alt="attachment"
+                    />
+                    <div className="factoryForm__clear" onClick={onClearAttachment}>
+                        <span>Remove</span>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </div>
                 </div>
             )}
         </form>
