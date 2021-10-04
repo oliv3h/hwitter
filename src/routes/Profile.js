@@ -1,11 +1,14 @@
 import { updateProfile } from "@firebase/auth";
 import { collection, getDocs, onSnapshot, orderBy, query, where } from "@firebase/firestore";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { authService, dbService } from "fb";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 const Profile = ({ refreshUser, userObject }) => {
     const history = useHistory();
+    const [newProfile, setNewProfile] = useState(userObject.photoURL);
     const [newDisplayName, setNewDisplayName] = useState(userObject.displayName);
     const onLogOutClick = () => {
         authService.signOut();
@@ -19,7 +22,7 @@ const Profile = ({ refreshUser, userObject }) => {
             , orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
+            
         });
     };
 
@@ -37,12 +40,17 @@ const Profile = ({ refreshUser, userObject }) => {
         refreshUser();
         }
     };
+
     useEffect(() => {
         getMyHweets();
     });
     return (<div className="container">
         <form onSubmit={onSubmit}>
-            <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChange} autoFocus className="formInput"/>
+            <img src={userObject.photoURL} alt="It's me!" style={{
+                display: "block",
+                margin: "0 auto",
+            }} />
+            <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChange} autoFocus className="formInput" style={{marginTop:10}} />
             <input type="submit" value="Update Profile!" className="formBtn" style={{marginTop: 10 }} />
         </form>
         <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
